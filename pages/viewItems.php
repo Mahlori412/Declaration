@@ -14,6 +14,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +25,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Now UI Dashboard by Creative Tim
+    tables members
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -31,9 +33,16 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- CSS Files -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="../assets/css/now-ui-dashboard.css?v=1.5.0" rel="stylesheet" />
+  <link href="../assets/css/now-ui-dashboardd.css?v=1.5.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+   <?php include "head.php"; ?>
+  <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
+    </script>
+    
 </head>
 
 <body class="">
@@ -42,64 +51,20 @@
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
-      <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          CT
-        </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
+    <div class="logo">
+        <a href="./dashboard.php" class="simple-text logo-normal">
+          Student Declaration
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li>
-            <a href="./dashboard.html">
+            <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li>
-            <a href="./icons.html">
-              <i class="now-ui-icons education_atom"></i>
-              <p>Icons</p>
-            </a>
-          </li>
-          <li>
-            <a href="./map.html">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Maps</p>
-            </a>
-          </li>
-          <li>
-            <a href="./notifications.html">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>Notifications</p>
-            </a>
-          </li>
-          <li>
-            <a href="./user.html">
-              <i class="now-ui-icons users_single-02"></i>
-              <p>User Profile</p>
-            </a>
-          </li>
-          <li>
-            <a href="./tables.html">
-              <i class="now-ui-icons design_bullet-list-67"></i>
-              <p>Table List</p>
-            </a>
-          </li>
-          <li class="active ">
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
+          
         </ul>
       </div>
     </div>
@@ -115,7 +80,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Typography</a>
+            <a class="navbar-brand" href="#pablo">Admin Dashboard</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -175,84 +140,79 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Now Ui Table Heading</h5>
-                <p class="category">Created using Montserrat Font Family</p>
+                <h4 class="card-title"> Registered Members</h4>
+              </div>
+              <?php
+                    include_once 'connection.php';
+                    $result = mysqli_query($conn,"SELECT * FROM items");
+                    ?>
+
+                    <?php
+                    if (mysqli_num_rows($result) > 0) {
+                    ?>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                   <thead class=" text-primary">
+                      <th>
+                        Item Id
+                      </th>
+                      <th>
+                       Serial Number
+                      </th>
+                      <th>
+                        Item Name
+                      </th>
+                      <th>
+                        Description
+                      </th>
+                    
+                      <th>
+                        Student Number
+                      </th>
+                      <th>
+                        Edit/Delete
+                      </th>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $i=0;
+                    while($row = mysqli_fetch_array($result)) {
+                    ?>
+                    <tr>
+                        <td><?php echo $row["itemId"]; ?></td>
+                        <td><?php echo $row["serNum"]; ?></td>
+                        <td><?php echo $row["itemN"]; ?></td>
+                        <td><?php echo $row["des"]; ?></td>
+                        <td><?php echo $row["stud_num"]; ?></td>
+                        <td><a href="update items.php?itemId=<?php echo $row["itemId"]; ?>" title='Update Record'><span class='glyphicon glyphicon-pencil'></span></a>
+                        <a href="delete itms.php?itemId=<?php echo $row["itemId"]; ?>" title='Delete Record'><i class='material-icons'><span class='glyphicon glyphicon-trash'></span></a>
+                        </td>
+                    </tr>
+                    <?php
+                    $i++;
+                    }
+                    ?>
+                    </table>
+                     <?php
+                    }
+                    else{
+                        echo "No result found";
+                    }
+                    ?> 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="card card-plain">
+              <div class="card-header">
+                <h4 class="card-title"> Table on Plain Background</h4>
+                <p class="category"> Here is a subtitle for this table</p>
               </div>
               <div class="card-body">
-                <div class="typography-line">
-                  <h1><span>Header 1</span>The Life of Now Ui Dashboard </h1>
-                </div>
-                <div class="typography-line">
-                  <h2><span>Header 2</span>The Life of Now Ui Dashboard </h2>
-                </div>
-                <div class="typography-line">
-                  <h3><span>Header 3</span>The Life of Now Ui Dashboard </h3>
-                </div>
-                <div class="typography-line">
-                  <h4><span>Header 4</span>The Life of Now Ui Dashboard </h4>
-                </div>
-                <div class="typography-line">
-                  <h5><span>Header 5</span>The Life of Now Ui Dashboard </h5>
-                </div>
-                <div class="typography-line">
-                  <h6><span>Header 6</span>The Life of Now Ui Dashboard </h6>
-                </div>
-                <div class="typography-line">
-                  <p><span>Paragraph</span>
-                    I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.
-                  </p>
-                </div>
-                <div class="typography-line">
-                  <span>Quote</span>
-                  <blockquote>
-                    <p class="blockquote blockquote-primary">
-                      "I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at."
-                      <br>
-                      <br>
-                      <small>
-                        - Noaa
-                      </small>
-                    </p>
-                  </blockquote>
-                </div>
-                <div class="typography-line">
-                  <span>Muted Text</span>
-                  <p class="text-muted">
-                    I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...
-                  </p>
-                </div>
-                <div class="typography-line">
-                  <span>Primary Text</span>
-                  <p class="text-primary">
-                    I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...</p>
-                </div>
-                <div class="typography-line">
-                  <span>Info Text</span>
-                  <p class="text-info">
-                    I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-                </div>
-                <div class="typography-line">
-                  <span>Success Text</span>
-                  <p class="text-success">
-                    I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-                </div>
-                <div class="typography-line">
-                  <span>Warning Text</span>
-                  <p class="text-warning">
-                    I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...
-                  </p>
-                </div>
-                <div class="typography-line">
-                  <span>Danger Text</span>
-                  <p class="text-danger">
-                    I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
-                </div>
-                <div class="typography-line">
-                  <h2><span>Small Tag</span>
-                    Header with small subtitle <br>
-                    <small>Use "small" tag for the headers</small>
-                  </h2>
-                </div>
               </div>
             </div>
           </div>
@@ -263,18 +223,18 @@
           <nav>
             <ul>
               <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
+                <a href="#">
+                  Declaration
                 </a>
               </li>
               <li>
-                <a href="http://presentation.creative-tim.com">
+                <a href="#">
                   About Us
                 </a>
               </li>
               <li>
                 <a href="http://blog.creative-tim.com">
-                  Blog
+                  contact
                 </a>
               </li>
             </ul>

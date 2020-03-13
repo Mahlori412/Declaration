@@ -1,6 +1,11 @@
 <?php
-    session_start();
-    include 'config.php';
+    $servername = "localhost";
+    $dbusername = "root";
+    $dbpassword = "";
+    $dbname = "admincrud";
+ 
+    $conn = mysqli_connect($servername,$dbusername,$dbpassword,$dbname);
 
-    if(isset($_POST[Add]))
-?>
+    if(!$conn){
+        die("connection failed".mysqli_connect_errno());
+    }

@@ -14,8 +14,16 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 -->
+
+
 <!DOCTYPE html>
 <html lang="en">
+
+<?php
+
+include "database1.php"
+
+?>
 
 <head>
   <meta charset="utf-8" />
@@ -23,7 +31,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Now UI Dashboard by Creative Tim
+ 
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -36,18 +44,16 @@
   <link href="../assets/demo/demo.css" rel="stylesheet" />
 </head>
 
-<body class="user-profile">
+<body class="user-profile"  >
+
   <div class="wrapper ">
     <div class="sidebar" data-color="orange">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          CT
-        </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
+        <a  class="simple-text logo-normal">
+          Declaration
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
@@ -59,42 +65,23 @@
             </a>
           </li>
       
-          <li>
-            <a href="./map.html">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Maps</p>
+	  <li class="active ">
+            <a href="./itemDeclare.php">
+              <i class="now-ui-icons users_single-02"></i>
+              <p>Declare an Item</p>
             </a>
           </li>
-          <li>
-            <a href="./notifications.html">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>Notifications</p>
-            </a>
-          </li>
+		  
+	  
           <li class="active ">
-            <a href="./user.html">
+            <a href="./users.php">
               <i class="now-ui-icons users_single-02"></i>
               <p>User Profile</p>
             </a>
           </li>
-          <li>
-            <a href="./tables.html">
-              <i class="now-ui-icons design_bullet-list-67"></i>
-              <p>Table List</p>
-            </a>
-          </li>
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
+		  
+		  
+		  
         </ul>
       </div>
     </div>
@@ -117,49 +104,7 @@
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form>
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <i class="now-ui-icons ui-1_zoom-bold"></i>
-                  </div>
-                </div>
-              </div>
-            </form>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons media-2_sound-wave"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="now-ui-icons location_world"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <i class="now-ui-icons users_single-02"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Account</span>
-                  </p>
-                </a>
-              </li>
-            </ul>
-          </div>
+          
         </div>
       </nav>
       <!-- End Navbar -->
@@ -173,24 +118,19 @@
                 <h5 class="title">Edit Profile</h5>
               </div>
               <div class="card-body">
-                <form>
+                <form action="database1.php" method="post">
                   <div class="row">
-                    <div class="col-md-5 pr-1">
-                      <div class="form-group">
-                        <label>Company (disabled)</label>
-                        <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc.">
-                      </div>
-                    </div>
+                   
                     <div class="col-md-3 px-1">
                       <div class="form-group">
                         <label>student Number</label>
-                        <input type="text" class="form-control" placeholder="Username" value="michael23">
+                        <input type="text" class="form-control" name="studNo" placeholder="e.g 213463768" value="" required>
                       </div>
                     </div>
                     <div class="col-md-4 pl-1">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" class="form-control" name="email" placeholder="Email" required>
                       </div>
                     </div>
                   </div>
@@ -198,13 +138,13 @@
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="Company" value="Mike">
+                        <input type="text" class="form-control" name="fName" placeholder="e.g blessing" value="" required>
                       </div>
                     </div>
                     <div class="col-md-6 pl-1">
                       <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
+                        <input type="text" class="form-control" name="lName" placeholder="e.g ditebe" value="" required>
                       </div>
                     </div>
                   </div>
@@ -212,21 +152,21 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>ID Number</label>
-                        <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                        <input type="text" class="form-control" name="idNo" placeholder="e.g 9011222336647" value="" required> 
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-4 pr-1">
                       <div class="form-group">
-                        <label>School</label>
-                        <input type="text" class="form-control" placeholder="City" value="Mike">
+                        <label>School (optional)</label>
+                        <input type="text" class="form-control" placeholder="e.g TUT" value="" >
                       </div>
                     </div>
                     <div class="col-md-4 px-1">
                       <div class="form-group">
-                        <label>Campus</label>
-                        <input type="text" class="form-control" placeholder="Country" value="Andrew">
+                        <label>Campus (optional)</label>
+                        <input type="text" class="form-control" placeholder="e,g Arcadia campus" value="">
                       </div>
                     </div>
                     <div class="col-md-4 pl-1">
@@ -244,6 +184,9 @@
                       </div>
                     </div>
                   </div>
+				  
+				<button type="Submit" class="btn btn-secondary" name="update">Submit</button>
+				
                 </form>
               </div>
             </div>
@@ -257,10 +200,10 @@
                 <div class="author">
                   <a href="#">
                     <img class="avatar border-gray" src="#" alt="...">
-                    <h5 class="title">Mahlori</h5>
+                    <h5 class="title">your name</h5>
                   </a>
                   <p class="description">
-                    michael24
+                    your name
                   </p>
                 </div>
                 <!--<p class="description text-center">
@@ -284,7 +227,7 @@
             </div>
           </div>
         </div>
-      </div> <!--End container-->
+      </div>
       <footer class="footer">
         <div class=" container-fluid ">
           <nav>

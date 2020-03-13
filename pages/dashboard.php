@@ -12,11 +12,32 @@
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-<?php
-  include 'user.php';
-  include 'tables.php';
-?>
+
 -->
+<?php
+  require('./connection.php');
+
+  $query = "SELECT * FROM roles";
+
+  $result = mysqli_query($conn,$query);
+
+  /*$crud = mysqli_fetch_all($result);
+
+  mysqli_free_result($result);
+
+  mysqli_close($conn);*/
+
+  $sql = "SELECT count(serNum) AS counts FROM items";
+  $item = mysqli_query($conn,$sql);
+  $values =mysqli_fetch_assoc($item);
+  $num=$values['counts'];
+  
+  $sql = "SELECT count(studno) AS total FROM roles";
+  $all = mysqli_query($conn,$sql);
+  $values =mysqli_fetch_assoc($all);
+  $num_rows=$values['total'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +55,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- CSS Files -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="../assets/css/now-ui-dashboard.css?v=1.5.0" rel="stylesheet" />
+  <link href="../assets/css/now-ui-dashboardd.css?v=1.5.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
 </head>
@@ -46,11 +67,8 @@
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          CT
-        </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
+        <a href="./dashboard.php" class="simple-text logo-normal">
+          Student Declaration
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
@@ -61,13 +79,7 @@
               <p>Dashboard</p>
             </a>
           </li>
-          
-          <li>
-            <a href="./map.html">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Maps</p>
-            </a>
-          </li>
+        
           <li>
             <a href="./notifications.php">
               <i class="now-ui-icons ui-1_bell-53"></i>
@@ -81,21 +93,15 @@
             </a>
           </li>
           <li>
-            <a href="./tables.php">
+            <a href="viewUsers.php">
               <i class="now-ui-icons design_bullet-list-67"></i>
-              <p>Table List</p>
+              <p>Users Table List</p>
             </a>
           </li>
           <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
+            <a href="viewItems.php">
+              <i class="now-ui-icons design_bullet-list-67"></i>
+              <p>Items Table List</p>
             </a>
           </li>
         </ul>
@@ -113,7 +119,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Dashboard</a>
+            <a class="navbar-brand" href="#pablo">Admin Dashboard</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -166,31 +172,29 @@
         </div>
       </nav>
       <!-- End Navbar -->
-      <div class="panel-header panel-header-lg">
-        <canvas id="bigDashboardChart"></canvas>
+      <div class="panel-header panel-header-sm">
+       <!-- <canvas id="bigDashboardChart"></canvas>-->
       </div>
       <div class="content">
         <div class="row">
           <div class="col-lg-4">
             <div class="card card-chart">
               <div class="card-header">
-                <h5 class="card-category">Global Sales</h5>
-                <h4 class="card-title">Shipped Products</h4>
+                <h5 class="card-category" >2020</h5>
+                <h4 class="card-title">Registered Users</h4>
                 <div class="dropdown">
                   <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
                     <i class="now-ui-icons loader_gear"></i>
                   </button>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <a class="dropdown-item text-danger" href="#">Remove Data</a>
+                    <a class="dropdown-item" href="viewUsers.php">Action</a>
+                    
                   </div>
                 </div>
               </div>
               <div class="card-body">
                 <div class="chart-area">
-                  <canvas id="lineChartExample"></canvas>
+                  <h1 ><?php echo $num_rows;?></h1>
                 </div>
               </div>
               <div class="card-footer">
@@ -203,23 +207,21 @@
           <div class="col-lg-4 col-md-6">
             <div class="card card-chart">
               <div class="card-header">
-                <h5 class="card-category">2018 Sales</h5>
-                <h4 class="card-title">All products</h4>
+                <h5 class="card-category">2020 items</h5>
+                <h4 class="card-title">All Registered Items</h4>
                 <div class="dropdown">
                   <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
                     <i class="now-ui-icons loader_gear"></i>
                   </button>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <a class="dropdown-item text-danger" href="#">Remove Data</a>
+                    <a class="dropdown-item" href="viewItems.php">Action</a>
+                    
                   </div>
                 </div>
               </div>
               <div class="card-body">
                 <div class="chart-area">
-                  <canvas id="lineChartExampleWithNumbersAndGrid"></canvas>
+                  <h1 ><?php echo $num;?></h1>
                 </div>
               </div>
               <div class="card-footer">
@@ -229,7 +231,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6">
+          <!-- <div class="col-lg-4 col-md-6">
             <div class="card card-chart">
               <div class="card-header">
                 <h5 class="card-category">Email Statistics</h5>
@@ -237,7 +239,7 @@
               </div>
               <div class="card-body">
                 <div class="chart-area">
-                  <canvas id="barChartSimpleGradientsNumbers"></canvas>
+                <h1 ><?php echo $num_rows;?></h1>
                 </div>
               </div>
               <div class="card-footer">
@@ -246,7 +248,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="row">
           <div class="col-md-6">
@@ -333,96 +335,36 @@
             <div class="card">
               <div class="card-header">
                 <h5 class="card-category">All Persons List</h5>
-                <h4 class="card-title"> Employees Stats</h4>
+                <h4 class="card-title"> Users Stats</h4>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
                       <th>
-                        Name
+                      Student Number
                       </th>
                       <th>
-                        Country
-                      </th>
-                      <th>
-                        City
-                      </th>
-                      <th class="text-right">
-                        Salary
+                      User Name
                       </th>
                     </thead>
                     <tbody>
+                    <?php
+                       while($row=mysqli_fetch_assoc($result))
+                       {
+                      ?>
                       <tr>
                         <td>
-                          Dakota Rice
+                        <?php echo $row['studno'];?>
                         </td>
                         <td>
-                          Niger
+                        <?php echo $row['name'];?>
                         </td>
-                        <td>
-                          Oud-Turnhout
-                        </td>
-                        <td class="text-right">
-                          $36,738
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Minerva Hooper
-                        </td>
-                        <td>
-                          Curaçao
-                        </td>
-                        <td>
-                          Sinaai-Waas
-                        </td>
-                        <td class="text-right">
-                          $23,789
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Sage Rodriguez
-                        </td>
-                        <td>
-                          Netherlands
-                        </td>
-                        <td>
-                          Baileux
-                        </td>
-                        <td class="text-right">
-                          $56,142
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Doris Greene
-                        </td>
-                        <td>
-                          Malawi
-                        </td>
-                        <td>
-                          Feldkirchen in Kärnten
-                        </td>
-                        <td class="text-right">
-                          $63,542
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Mason Porter
-                        </td>
-                        <td>
-                          Chile
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-right">
-                          $78,615
-                        </td>
-                      </tr>
+                        
+                       </tr>
+                       <?php
+                       }
+                       ?>
                     </tbody>
                   </table>
                 </div>
@@ -455,7 +397,7 @@
           <div class="copyright" id="copyright">
             &copy; <script>
               document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            </script>, Designed by <a href="#" target="_blank">Declaration Devs</a>. Coded by <a href="#" target="_blank">Mahlori</a>.
           </div>
         </div>
       </footer>

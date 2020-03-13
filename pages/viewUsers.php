@@ -14,9 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 -->
-<?php
-include 'config.php'
-?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +25,7 @@ include 'config.php'
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Now UI Dashboard by Creative Tim
+    tables members
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -35,9 +33,15 @@ include 'config.php'
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- CSS Files -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="../assets/css/now-ui-dashboard.css?v=1.5.0" rel="stylesheet" />
+  <link href="../assets/css/now-ui-dashboardd.css?v=1.5.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+  <?php include "head.php"; ?>
+  <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();   
+        });
+    </script>
 </head>
 
 <body class="">
@@ -46,12 +50,9 @@ include 'config.php'
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
-      <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          CT
-        </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
+    <div class="logo">
+        <a href="./dashboard.php" class="simple-text logo-normal">
+          Student Declaration
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
@@ -60,48 +61,6 @@ include 'config.php'
             <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
-            </a>
-          </li>
-          <li>
-            <a href="./icons.html">
-              <i class="now-ui-icons education_atom"></i>
-              <p>Icons</p>
-            </a>
-          </li>
-          <li>
-            <a href="./map.html">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Maps</p>
-            </a>
-          </li>
-          <li>
-            <a href="./notifications.html">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>Notifications</p>
-            </a>
-          </li>
-          <li>
-            <a href="./user.php">
-              <i class="now-ui-icons users_single-02"></i>
-              <p>User Profile</p>
-            </a>
-          </li>
-          <li class="active ">
-            <a href="./tables.php">
-              <i class="now-ui-icons design_bullet-list-67"></i>
-              <p>Table List</p>
-            </a>
-          </li>
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
             </a>
           </li>
         </ul>
@@ -177,73 +136,65 @@ include 'config.php'
       <div class="content">
         <div class="row">
           <div class="col-md-12">
-            <?php
-            $Query = "select * from crud";
-            $stmt = $conn->prepare($query);
-            $stmt->execute();
-            $result=$stmt->get_results();
-            ?>
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Simple Table</h4>
+                <h4 class="card-title"> Registered Members</h4>
               </div>
+              <?php
+                    include_once 'connection.php';
+                    $result = mysqli_query($conn,"SELECT * FROM roles");
+                    ?>
+
+                    <?php
+                    if (mysqli_num_rows($result) > 0) {
+                    ?>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
                    <thead class=" text-primary">
                       <th>
-                        Student Number
+                        User Name
                       </th>
                       <th>
-                        User name
+                       Student Number
                       </th>
                       <th>
-                        Item name
+                        Contact
                       </th>
                       <th>
-                        Serial Number
+                        Email
                       </th>
+                    
                       <th>
-                        contact
-                      </th>
-                      <th>
-                        email
+                        Edit/Delete
                       </th>
                       
                     </thead>
                     <tbody>
-                      <?php
-                        while($row=$result->fetch_assoc(){ )
-                      ?>
-                      <tr>
-                        <td>
-                          <?=$row['studentNo']?>
+                    <?php
+                    $i=0;
+                    while($row = mysqli_fetch_array($result)) {
+                    ?>
+                    <tr>
+                        <td><?php echo $row["name"]; ?></td>
+                        <td><?php echo $row["studno"]; ?></td>
+                        <td><?php echo $row["mobile"]; ?></td>
+                        <td><?php echo $row["email"]; ?></td>
+                        <td><a href="update.php?studno=<?php echo $row["studno"]; ?>" title='Update Record'><span class='glyphicon glyphicon-pencil'></span></a>
+                        <a href="delete.php?studno=<?php echo $row["studno"]; ?>" title='Delete Record'><i class='material-icons'><span class='glyphicon glyphicon-trash'></span></a>
                         </td>
-                        <td>
-                        <?=$row['username']?>
-                        </td>
-                        <td>
-                        <?=$row['itemName']?>
-                        </td>
-                        <td>
-                        <?=$row['serialNo']?>
-                        </td>
-                        <td>
-                        <?=$row['contact']?>
-                        </td>
-                        <td>
-                        <?=$row['email']?>
-                        </td>
-                        <td>
-                          <td>  
-                            <a href="#" class="badge badge-primary p-2">Details</a>|
-                            <a href="#" class="badge badge-danger p-2">Delete</a>|
-                            <a href="#" class="badge badge-success p-2">Edit</a>|  
-                          </td>
-                      </tr>
-                      <?php
-                        }
-                      ?> 
+                    </tr>
+                    <?php
+                    $i++;
+                    }
+                    ?>
+                    </table>
+                     <?php
+                    }
+                    else{
+                        echo "No result found";
+                    }
+                    ?> 
                     </tbody>
                   </table>
                 </div>
@@ -257,124 +208,6 @@ include 'config.php'
                 <p class="category"> Here is a subtitle for this table</p>
               </div>
               <div class="card-body">
-                <!--<div class="table-responsive">
-                  <table class="table">
-                    <thead class=" text-primary">
-                      <th>
-                        Name
-                      </th>
-                      <th>
-                        Country
-                      </th>
-                      <th>
-                        City
-                      </th>
-                      <th class="text-right">
-                        Salary
-                      </th>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          Dakota Rice
-                        </td>
-                        <td>
-                          Niger
-                        </td>
-                        <td>
-                          Oud-Turnhout
-                        </td>
-                        <td class="text-right">
-                          $36,738
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Minerva Hooper
-                        </td>
-                        <td>
-                          Curaçao
-                        </td>
-                        <td>
-                          Sinaai-Waas
-                        </td>
-                        <td class="text-right">
-                          $23,789
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Sage Rodriguez
-                        </td>
-                        <td>
-                          Netherlands
-                        </td>
-                        <td>
-                          Baileux
-                        </td>
-                        <td class="text-right">
-                          $56,142
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Philip Chaney
-                        </td>
-                        <td>
-                          Korea, South
-                        </td>
-                        <td>
-                          Overland Park
-                        </td>
-                        <td class="text-right">
-                          $38,735
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Doris Greene
-                        </td>
-                        <td>
-                          Malawi
-                        </td>
-                        <td>
-                          Feldkirchen in Kärnten
-                        </td>
-                        <td class="text-right">
-                          $63,542
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Mason Porter
-                        </td>
-                        <td>
-                          Chile
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-right">
-                          $78,615
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          Jon Porter
-                        </td>
-                        <td>
-                          Portugal
-                        </td>
-                        <td>
-                          Gloucester
-                        </td>
-                        <td class="text-right">
-                          $98,615
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>-->
               </div>
             </div>
           </div>
@@ -385,18 +218,18 @@ include 'config.php'
           <nav>
             <ul>
               <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
+                <a href="#">
+                  Declaration
                 </a>
               </li>
               <li>
-                <a href="http://presentation.creative-tim.com">
+                <a href="#">
                   About Us
                 </a>
               </li>
               <li>
                 <a href="http://blog.creative-tim.com">
-                  Blog
+                  contact
                 </a>
               </li>
             </ul>
