@@ -1,37 +1,12 @@
-<!--
-
-=========================================================
-* Now UI Dashboard - v1.5.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard
-* Copyright 2019 Creative Tim (http://www.creative-tim.com)
-
-* Designed by www.invisionapp.com Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
--->
-
-
 <!DOCTYPE html>
 <html lang="en">
-
-<?php
-
-include "database1.php"
-
-?>
 
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
- 
+    Register User
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -42,49 +17,86 @@ include "database1.php"
   <link href="../assets/css/register.css?v=1.5.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
+  <!-- <link href="./r.css" rel="stylesheet" /> -->
 </head>
+
+<style>
+/* Style all input fields */
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  
+}
+
+/* Style the submit button */
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Style the container for inputs */
+.container {
+  background-color: #f1f1f1;
+  padding: 20px;
+}
+
+/* The message box is shown when the user clicks on the password field */
+#message {
+  display:none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+  
+}
+
+#message p {
+  padding: 10px 35px;
+  font-size: 18px;
+}
+
+#lblName,
+#lblEmail,
+#lblCellNO,
+#lblCpass,
+#lblStudentNumber{
+  display:none;
+  background: #f1f1f1;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+}
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -35px;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -35px;
+  content: "✖";
+}
+</style>
 
 <body class="user-profile"  >
 
-  <!-- <div class="wrapper "> -->
-    <!-- <div class="sidebar" data-color="orange">
-      
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-   
-      <div class="logo">
-        <a  class="simple-text logo-normal">
-          Declaration
-        </a>
-      </div>
-      <div class="sidebar-wrapper" id="sidebar-wrapper">
-        <ul class="nav">
-          <li>
-            <a href="./dashboard.html">
-              <i class="now-ui-icons design_app"></i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-      
-	  <li class="active ">
-            <a href="./itemDeclare.php">
-              <i class="now-ui-icons users_single-02"></i>
-              <p>Declare an Item</p>
-            </a>
-          </li>
-		  
-	  
-          <li class="active ">
-            <a href="./users.php">
-              <i class="now-ui-icons users_single-02"></i>
-              <p>User Profile</p>
-            </a>
-          </li>
-		  
-		  
-		  
-        </ul>
-      </div>
-    </div> -->
     <div class="main-panel" id="main-panel">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
@@ -97,14 +109,25 @@ include "database1.php"
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Declare Items</a>
+            <a class="navbar-brand" href="#pablo" style = "text-aligin"><h2>Registration</h2></a>
+            
           </div>
+          
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
-          
+          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="index.php">
+                  <i class="fa fa-home"></i>
+                  
+                </a>Home
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
       <!-- End Navbar -->
@@ -115,47 +138,109 @@ include "database1.php"
           <div class="col-md-6">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Declare Items</h5>
+                <h5 class="title">User Registration</h5>
               </div>
               <div class="card-body">
-                <form action="itemConnect.php" method="post" style="margin-left:200">
+                <form action="includes/registerdb.php" method="post" style="margin-left:200">
+
                   <div class="row">
                     <div class="col-md-6 px-1">
                       <div class="form-group">
-                        <label>student Number</label>
-                        <input type="text" class="form-control" name="studNo" placeholder="e.g 213463768" value="" required>
+                        <label>Student Number</label>
+                        <input type="text" class="form-control" name="stud_num" id="studentNumber"  onkeyup="validateStudentNumber()" placeholder="Enter Student Number" value=""  required>
+                        <label id="lblStudentNumber"></label>
+                        
                       </div>
                     </div>
-					
-					<div class="col-md-6 px-1">
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-6 px-1">
                       <div class="form-group">
-                        <label>Serial Number</label>
-                        <input type="text" class="form-control" name="serialNo" placeholder="e.g xpC25jh9" value="" required>
+                        <label>Full Name</label>
+                        <input type="text" class="form-control" name="fullname" id="name" onkeyup="validateName()" placeholder="Enter Full Names" value="" required>
+                        <label id="lblName"></label>
+                      </div>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" name="email" id="email" onkeyup="validateEmail()" placeholder="Enter Email Address" value="" required>
+                        <label id="lblEmail"></label>
+                      </div>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" class="form-control" name="phone" id="cellNO" onkeyup="validateCellNO()" placeholder="Enter Phone Number" value="" required>
+                        <label id="lblCellNO"></label>
+                      </div>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>Campuses</label>
+                         <select name="campus" id="campus" type="text" class="form-control" required>
+                        <option value="">Select Campus</option>
+                        <option value="Soshanguve South Campus">Soshanguve South Campus</option>
+                        <option value="Soshanguve North Campus">Soshanguve North Campus</option>
+                        <option value="Pretoria Campus">Pretoria Campus</option>
+                        <option value="Ga-Rankuwa Campus">Ga-Rankuwa Campus</option>
+                        <option value="Mbombela Campus">Mbombela Campus</option>
+                        <option value="eMalahleni Campus">eMalahleni Campus</option>
+                        <option value="Polokwane Campus">Polokwane Campus</option>
+                        <option value="Arts Campus">Arts Campus</option>
+                        <option value="Arcadia Campus">Arcadia Campus</option>
+                        </select>
+                      </div>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="uPass" id="uPass" onkeyup="validatePass()" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" placeholder="Enter your Password" value=""  required>
+                      </div>
+                    </div>
+                    </div>
+
+                    <div id="message">
+							<h3>Password must contain the following:</h3>
+							<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+							<p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+							<p id="number" class="invalid">A <b>number</b></p>
+							<p id="length" class="invalid">Minimum <b>8 characters</b></p>
+							</div>
+
+                  <div class="row">
+					          <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" class="form-control" name="cPass" id="cPass" onkeyup="validatePasswordMatch()" placeholder="Confirm Password" value="" required>
+                        <label id="lblCpass"></label>
                       </div>
                     </div>
                  </div>
+                
+                 <input type="hidden" name="usertype" value = "user">
 				  
+             
 				  
-                  <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Name of Item</label>
-                        <input type="text" class="form-control" name="itemName" placeholder="e.g laptop" value="" required>
-                      </div>
-                    </div>
+				<button type="Submit" class="btn btn-secondary" name="signup-btn">Submit</button>
+
+        <div class="form-group">
                   
-				  
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Item Description</label>
-                        <textarea rows="4" cols="80" class="form-control" name="itemDesc" placeholder="Here can be your description" value="text"></textarea>
-                      </div>
-                    </div>
-                  </div>
-				  
-				<button type="Submit" class="btn btn-secondary" name="Declare">Submit</button>
+                  Click <a href="./login.php">here</a> if you already have an account
+                </div>
 				
                 </form>
               </div>
@@ -164,38 +249,12 @@ include "database1.php"
          
         </div>
       </div>
-      <footer class="footer">
-        <div class=" container-fluid ">
-          <nav>
-            <ul>
-              <li>
-                <a href="dashboard.html">
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright" id="copyright">
-            &copy; <script>
-              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by <a href="https://www.tut.ac.za" target="_blank">Invision</a>. Coded by <a href="#" target="_blank">Declaration team</a>.
-          </div>
-        </div>
-      </footer>
+     
     </div>
   <!-- </div> -->
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>
+  <script src="../assets/js/validations.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
@@ -211,3 +270,116 @@ include "database1.php"
 </body>
 
 </html>
+
+
+<script type="text/javascript">
+var myInput = document.getElementById("uPass"); 
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var length = document.getElementById("length");
+
+ // When the user clicks on the password field, show the message box
+ document.getElementById("studentNumber").onfocus = function() {
+      document.getElementById("lblStudentNumber").style.display = "block";
+  }
+
+  // When the user clicks outside of the password field, hide the message box
+  document.getElementById("studentNumber").onblur = function() {
+      document.getElementById("lblStudentNumber").style.display = "none";
+  }
+
+  // When the user clicks on the password field, show the message box
+ document.getElementById("name").onfocus = function() {
+      document.getElementById("lblName").style.display = "block";
+  }
+
+  // When the user clicks outside of the password field, hide the message box
+  document.getElementById("name").onblur = function() {
+      document.getElementById("lblName").style.display = "none";
+  }
+
+    // When the user clicks on the password field, show the message box
+ document.getElementById("email").onfocus = function() {
+      document.getElementById("lblEmail").style.display = "block";
+  }
+
+  // When the user clicks outside of the password field, hide the message box
+  document.getElementById("email").onblur = function() {
+      document.getElementById("lblEmail").style.display = "none";
+  }
+
+  // When the user clicks on the password field, show the message box
+ document.getElementById("cellNO").onfocus = function() {
+      document.getElementById("lblCellNO").style.display = "block";
+  }
+
+  // When the user clicks outside of the password field, hide the message box
+  document.getElementById("cellNO").onblur = function() {
+      document.getElementById("lblCellNO").style.display = "none";
+  }
+
+   // When the user clicks on the password field, show the message box
+ document.getElementById("cPass").onfocus = function() {
+      document.getElementById("lblCpass").style.display = "block";
+  }
+
+  // When the user clicks outside of the password field, hide the message box
+  document.getElementById("cPass").onblur = function() {
+      document.getElementById("lblCpass").style.display = "none";
+  }
+
+
+// When the user clicks on the password field, show the message box
+document.getElementById("uPass").onfocus = function() {
+  document.getElementById("message").style.display = "block";
+}
+
+// When the user clicks outside of the password field, hide the message box
+myInput.onblur = function() {
+  document.getElementById("message").style.display = "none";
+}
+
+// When the user starts to type something inside the password field
+myInput.onkeyup = function() {
+  // Validate lowercase letters
+  var lowerCaseLetters = /[a-z]/g;
+  if(myInput.value.match(lowerCaseLetters)) {  
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+  }
+  
+  // Validate capital letters
+  var upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {  
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }
+
+  // Validate numbers
+  var numbers = /[0-9]/g;
+  if(myInput.value.match(numbers)) {  
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+  
+  // Validate length
+  if(myInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+  }
+}
+
+</script>

@@ -1,37 +1,27 @@
-<!--
+<?php
 
-=========================================================
-* Now UI Dashboard - v1.5.0
-=========================================================
+session_start();
 
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard
-* Copyright 2019 Creative Tim (http://www.creative-tim.com)
+ if(isset($_SESSION['stud_num'])){
 
-* Designed by www.invisionapp.com Coded by www.creative-tim.com
+ }
+ else
+ {
+     echo "<script>location.href='./login.php'</script>";
+ }
 
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
--->
-
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 
-<?php
-
-include "database1.php"
-
-?>
 
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
- 
+    User Declare Item 
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -53,34 +43,45 @@ include "database1.php"
     -->
       <div class="logo">
         <a  class="simple-text logo-normal">
-          Declaration
+          Student Declaration
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li>
-            <a href="./dashboard.html">
+            <a href="./userdashboard.php">
               <i class="now-ui-icons design_app"></i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-      
-	  <li class="active ">
-            <a href="./itemDeclare.php">
-              <i class="now-ui-icons users_single-02"></i>
-              <p>Declare an Item</p>
+              <p>Student Dashboard</p>
             </a>
           </li>
 		  
 	  
-          <li class="active ">
-            <a href="./users.php">
+          <li>
+            <a href="./editProfile.php">
               <i class="now-ui-icons users_single-02"></i>
               <p>User Profile</p>
             </a>
           </li>
-		  
-		  
+         
+          <li class = "active">
+            <a href="./itemDeclare.php">
+              <i class="now-ui-icons design-2_ruler-pencil"></i>
+              <p>Declare Item</p>
+            </a>
+          </li>
+          <li >
+            <a href="./viewUserlostItems.php">
+              <i class="now-ui-icons design_bullet-list-67"></i>
+              <p>Lost Items Table List</p>
+            </a>
+          </li>
+          <li>
+            <a href="./viewUserItems.php">
+              <i class="now-ui-icons design_bullet-list-67"></i>
+              <p>Items Table List</p>
+            </a>
+          </li>
+         
 		  
         </ul>
       </div>
@@ -97,14 +98,27 @@ include "database1.php"
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Declare Items</a>
+            <a class="navbar-brand" href="#pablo">Declare Item</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
-          
+          <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="now-ui-icons users_single-02"></i><?php echo $_SESSION['stud_num']; ?>
+                  <p>
+                    <span class="d-lg-none d-md-block">Some Actions</span>
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#"><?php echo $_SESSION['stud_num']; ?>
+                  <a class="dropdown-item" href="./logout.php">Logout</a>
+                </div>
+              </li>
+          </ul>
         </div>
       </nav>
       <!-- End Navbar -->
@@ -115,22 +129,17 @@ include "database1.php"
           <div class="col-md-6">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Declare Items</h5>
+                <h5 class="title">Declare Item</h5>
               </div>
               <div class="card-body">
-                <form action="itemConnect.php" method="post" style="margin-left:200">
+                <form action="includes/declaredb.php" method="post" style="margin-left:200">
+                  
+
                   <div class="row">
-                    <div class="col-md-6 px-1">
-                      <div class="form-group">
-                        <label>student Number</label>
-                        <input type="text" class="form-control" name="studNo" placeholder="e.g 213463768" value="" required>
-                      </div>
-                    </div>
-					
-					<div class="col-md-6 px-1">
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Serial Number</label>
-                        <input type="text" class="form-control" name="serialNo" placeholder="e.g xpC25jh9" value="" required>
+                        <input type="text" class="form-control" name="serial_num" placeholder="e.g S45DS551STEWDC" value="" required>
                       </div>
                     </div>
                  </div>
@@ -140,22 +149,33 @@ include "database1.php"
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Name of Item</label>
-                        <input type="text" class="form-control" name="itemName" placeholder="e.g laptop" value="" required>
+                        <input type="text" class="form-control" name="item_nam" placeholder="e.g laptop" value="" required>
                       </div>
                     </div>
-                  
-				  
                   </div>
+
+
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Item Description</label>
-                        <textarea rows="4" cols="80" class="form-control" name="itemDesc" placeholder="Here can be your description" value="text"></textarea>
+                        <textarea rows="4" cols="80" class="form-control" name="description" placeholder="Here can be your description" value="text"></textarea>
                       </div>
                     </div>
                   </div>
+<!-- 
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Student Number</label>
+                        <input type="text" class="form-control" name="stud_num" placeholder="e.g S45DS551STEWDC" value="" required>
+                      </div>
+                    </div>
+                 </div> -->
+
+                 <input type="hidden" name="lost" value = "0">
 				  
-				<button type="Submit" class="btn btn-secondary" name="Declare">Submit</button>
+				<button type="Submit" class="btn btn-secondary" name="submit">Submit</button>
 				
                 </form>
               </div>
@@ -164,34 +184,7 @@ include "database1.php"
          
         </div>
       </div>
-      <footer class="footer">
-        <div class=" container-fluid ">
-          <nav>
-            <ul>
-              <li>
-                <a href="dashboard.html">
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright" id="copyright">
-            &copy; <script>
-              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by <a href="https://www.tut.ac.za" target="_blank">Invision</a>. Coded by <a href="#" target="_blank">Declaration team</a>.
-          </div>
-        </div>
-      </footer>
+      
     </div>
   </div>
   <!--   Core JS Files   -->
@@ -211,3 +204,5 @@ include "database1.php"
 </body>
 
 </html>
+
+

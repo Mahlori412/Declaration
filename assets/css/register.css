@@ -1692,8 +1692,9 @@ Copyright (c) 2015 Daniel Eden
   
   .input-group,
   .form-group {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     position: relative;
+    margin-left: 30px;
   }
   
   .input-group .form-control-static,
@@ -4203,13 +4204,13 @@ Copyright (c) 2015 Daniel Eden
   }
   
   .panel-header {
-    height: 260px;
+    height: 300px;
     padding-top: 80px;
     padding-bottom: 45px;
-    background: #141E30;
+    background: #343a40;
     /* fallback for old browsers */
     background: -webkit-gradient(linear, left top, right top, from(#0c2646), color-stop(60%, #204065), to(#2a5788));
-    background: linear-gradient(to right, #0c2646 0%, #204065 60%, #2a5788 100%);
+    background: linear-gradient(to right, #343a40 0%, #343a40 70%, #204065 100%);
     position: relative;
     overflow: hidden;
   }
@@ -4598,7 +4599,7 @@ Copyright (c) 2015 Daniel Eden
     border-radius: 0.1875rem;
     display: inline-block;
     position: relative;
-    width: 100%;
+    width: 1200px;
     margin-bottom: 20px;
     box-shadow: 0 1px 15px 1px rgba(39, 39, 39, 0.1);
   }

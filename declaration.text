@@ -1,0 +1,117 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Mar 24, 2020 at 11:34 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.1.27
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `declaration`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `items`
+--
+
+CREATE TABLE `items` (
+  `itemId` int(11) NOT NULL,
+  `serial_num` varchar(255) NOT NULL,
+  `item_nam` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `stud_num` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`itemId`, `serial_num`, `item_nam`, `description`, `stud_num`) VALUES
+(4, 'JFGJB12345S$$', 'Laptop', 'HP Laptop', 215763485),
+(13, 'QWERTY12345', 'Fridge AIM', 'Bar Fridge white in colour ', 215734838),
+(14, 'MHVCG215154khhb', 'Computer', 'PC black 500HDD core i7', 215734838),
+(15, 'MHVCG2151545', 'Laptop HP', 'Black 500HDD core i5 9th ', 215734838),
+(17, 'MHVCG215154', 'Fridge LG', 'Bar Fridge Sliver ', 215734838),
+(18, 'HGFXH12456', 'Laptop Dell', 'Black 1TB HDD core i8', 215734837);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `stud_num` int(11) NOT NULL,
+  `fullname` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `campus` varchar(255) NOT NULL,
+  `uPass` varchar(255) NOT NULL,
+  `usertype` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`stud_num`, `fullname`, `email`, `phone`, `campus`, `uPass`, `usertype`) VALUES
+(123456789, 'Thandi Thwala', 'gfghv@gmail.com', '0711969659', '', 'e33b0f3cba2c4c8ddbb00bd0f650cae6', 'admin'),
+(215734837, 'Lindo Mapiyeye', 'lindo@gmail.com', '0715589875', 'Soshanguve South', '2ab8c5c9e2c9020359cff2ea38d9e7a3', 'user'),
+(215734838, 'Mfanakazane Remembrant Shongwe', 'mfanakazane65@gmail.com', '0711969659', 'Soshanguve North', 'e33b0f3cba2c4c8ddbb00bd0f650cae6', 'user'),
+(215763485, 'Thando Khumalo', 'thando65@gmail.com', '0711969657', '', 'REmember@0711', 'user');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`itemId`,`serial_num`),
+  ADD KEY `stud_num` (`stud_num`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`stud_num`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `items`
+--
+ALTER TABLE `items`
+  MODIFY `itemId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `items`
+--
+ALTER TABLE `items`
+  ADD CONSTRAINT `items_ibfk_1` FOREIGN KEY (`stud_num`) REFERENCES `users` (`stud_num`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

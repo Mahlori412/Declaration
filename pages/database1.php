@@ -1,5 +1,5 @@
 <?php
-require ('connection.php');
+require ('includes/connection.php');
 
 if(isset($_POST['update'])){
 

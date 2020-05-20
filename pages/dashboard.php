@@ -1,23 +1,11 @@
-<!--
 
-=========================================================
-* Now UI Dashboard - v1.5.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard
-* Copyright 2019 Creative Tim (http://www.creative-tim.com)
-
-* Designed by www.invisionapp.com Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
--->
 <?php
-  require('./connection.php');
+  require('includes/connection.php');
 
-  $query = "SELECT * FROM roles";
+  session_start();
+  $student = $_SESSION['stud_num'];
+
+  $query = "SELECT * FROM users WHERE usertype = 'user'";
 
   $result = mysqli_query($conn,$query);
 
@@ -27,15 +15,46 @@
 
   mysqli_close($conn);*/
 
-  $sql = "SELECT count(serNum) AS counts FROM items";
+  $sql = "SELECT count(serial_num) AS counts FROM items WHERE lost=0";
   $item = mysqli_query($conn,$sql);
   $values =mysqli_fetch_assoc($item);
   $num=$values['counts'];
   
-  $sql = "SELECT count(studno) AS total FROM roles";
+  $sql = "SELECT count(serial_num) AS counts FROM items WHERE lost=1";
+  $item = mysqli_query($conn,$sql);
+  $values =mysqli_fetch_assoc($item);
+  $lost=$values['counts'];
+
+  $sql = "SELECT count(stud_num) AS total FROM users WHERE usertype = 'user'";
   $all = mysqli_query($conn,$sql);
   $values =mysqli_fetch_assoc($all);
   $num_rows=$values['total'];
+
+  $sql = "SELECT count(message) AS msg FROM message WHERE status = 0";
+  $item = mysqli_query($conn,$sql);
+  $values =mysqli_fetch_assoc($item);
+  $message=$values['msg'];
+
+////////////////////////////////////////////////////////////////
+// $sql1 = "SELECT * FROM message WHERE status = 0";
+                 
+//   $result1 = $conn->query($sql1);
+//   if ($result1->num_rows > 0) {
+//     while($data=mysqli_fetch_assoc($result1)){
+//       $msg = $data['message'];
+//     }
+//   }else{
+//        $msg = "Sorry no messages";
+//   }
+ ////////////////////////////////////////////////////////////////////////
+ if(isset($_SESSION['stud_num'])){
+
+ }
+ else
+ {
+     echo "<script>location.href='login.php'</script>";
+ }
+ 
 ?>
 
 <!DOCTYPE html>
@@ -44,10 +63,9 @@
 <head>
   <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Declaration Dashboard
+    Admin Declaration Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -76,32 +94,43 @@
           <li class="active ">
             <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-        
-          <li>
-            <a href="./notifications.php">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>Notifications</p>
-            </a>
-          </li>
-          <li>
-            <a href="./user.php">
-              <i class="now-ui-icons users_single-02"></i>
-              <p>User Profile</p>
+              <p>Admin Dashboard</p>
             </a>
           </li>
           <li>
             <a href="viewUsers.php">
               <i class="now-ui-icons design_bullet-list-67"></i>
-              <p>Users Table List</p>
+              <p>Users List</p>
             </a>
           </li>
           <li>
             <a href="viewItems.php">
               <i class="now-ui-icons design_bullet-list-67"></i>
-              <p>Items Table List</p>
+              <p>Items List</p>
+            </a>
+          </li>
+          <li >
+            <a href="viewlostItems.php">
+              <i class="now-ui-icons design_bullet-list-67"></i>
+              <p>Lost Items List</p>
+            </a>
+          </li>
+          <li>
+            <a href="./adminDeclareItem.php">
+              <i class="now-ui-icons design-2_ruler-pencil"></i>
+              <p>Declare Item</p>
+            </a>
+          </li>
+          <li >
+            <a href="./LostItem.php">
+              <i class="now-ui-icons design-2_ruler-pencil"></i>
+              <p>Declare Lost Items</p>
+            </a>
+          </li>
+          <li >
+            <a href="./read.php">
+              <i class="now-ui-icons ui-1_bell-53"></i>
+              <p>Messages</p>
             </a>
           </li>
         </ul>
@@ -138,35 +167,42 @@
               </div>
             </form>
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons media-2_sound-wave"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="now-ui-icons location_world"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
+                <i class="now-ui-icons ui-1_bell-53"></i><span class="badge badge-light"><?php echo $message; ?></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                 
+                    <?php
+                    
+                          $sql1 = "SELECT * FROM message WHERE status = 0";
+                      
+                          $result1 = $conn->query($sql1);
+                          if ($result1->num_rows > 0) {
+                            while($data=mysqli_fetch_assoc($result1)){
+                          
+                              echo '<a class="dropdown-item text-secondary" href="read.php?id='.$data['id'].'">This user '.$data['stud_num'].' '.$data['message'].'</a>';
+                            }
+                          }else{
+      
+                              echo '<a class="dropdown-item text-danger" href="#">Sorry! no messages</a>';
+                          }
+                    
+                    ?>
                 </div>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons users_single-02"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Account</span>
-                  </p>
+            
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <?php echo $_SESSION['stud_num']; ?><i class="now-ui-icons users_single-02"></i>
                 </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#"><?php echo $_SESSION['stud_num']; ?>
+                  <a class="dropdown-item" href="./logout.php">Logout</a>
+                </div>
               </li>
+              
             </ul>
           </div>
         </div>
@@ -180,17 +216,9 @@
           <div class="col-lg-4">
             <div class="card card-chart">
               <div class="card-header">
-                <h5 class="card-category" >2020</h5>
-                <h4 class="card-title">Registered Users</h4>
-                <div class="dropdown">
-                  <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                    <i class="now-ui-icons loader_gear"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="viewUsers.php">Action</a>
-                    
-                  </div>
-                </div>
+                <h5 class="card-category" ></h5>
+                <h4 class="card-title">All Registered Users</h4>
+                
               </div>
               <div class="card-body">
                 <div class="chart-area">
@@ -207,17 +235,9 @@
           <div class="col-lg-4 col-md-6">
             <div class="card card-chart">
               <div class="card-header">
-                <h5 class="card-category">2020 items</h5>
+                <h5 class="card-category"></h5>
                 <h4 class="card-title">All Registered Items</h4>
-                <div class="dropdown">
-                  <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                    <i class="now-ui-icons loader_gear"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="viewItems.php">Action</a>
-                    
-                  </div>
-                </div>
+                
               </div>
               <div class="card-body">
                 <div class="chart-area">
@@ -231,26 +251,25 @@
               </div>
             </div>
           </div>
-          <!-- <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6">
             <div class="card card-chart">
               <div class="card-header">
-                <h5 class="card-category">Email Statistics</h5>
-                <h4 class="card-title">24 Hours Performance</h4>
+                <h4 class="card-title">The Number of Lost Items</h4>
               </div>
               <div class="card-body">
                 <div class="chart-area">
-                <h1 ><?php echo $num_rows;?></h1>
+                <h1 ><?php echo $lost;?></h1>
                 </div>
               </div>
               <div class="card-footer">
-                <div class="stats">
-                  <i class="now-ui-icons ui-2_time-alarm"></i> Last 7 days
+              <div class="stats">
+                  <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
                 </div>
               </div>
             </div>
-          </div> -->
-        </div>
-        <div class="row">
+          </div>
+      <!--   </div>
+         <div class="row">
           <div class="col-md-6">
             <div class="card  card-tasks">
               <div class="card-header ">
@@ -330,12 +349,11 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="col-md-6">
             <div class="card">
               <div class="card-header">
-                <h5 class="card-category">All Persons List</h5>
-                <h4 class="card-title"> Users Stats</h4>
+                <h5 class="card-category">All Users List</h5>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -355,10 +373,10 @@
                       ?>
                       <tr>
                         <td>
-                        <?php echo $row['studno'];?>
+                        <?php echo $row['stud_num'];?>
                         </td>
                         <td>
-                        <?php echo $row['name'];?>
+                        <?php echo $row['fullname'];?>
                         </td>
                         
                        </tr>
@@ -373,34 +391,7 @@
           </div>
         </div>
       </div>
-      <footer class="footer">
-        <div class=" container-fluid ">
-          <nav>
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-              <li>
-                <a href="http://presentation.creative-tim.com">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com">
-                  Blog
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright" id="copyright">
-            &copy; <script>
-              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by <a href="#" target="_blank">Declaration Devs</a>. Coded by <a href="#" target="_blank">Mahlori</a>.
-          </div>
-        </div>
-      </footer>
+      
     </div>
   </div>
   <!--   Core JS Files   -->
